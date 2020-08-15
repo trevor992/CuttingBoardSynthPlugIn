@@ -5,6 +5,35 @@
               jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="qlyeXf" name="CuttingBoardSynthPlugin">
     <GROUP id="{C50B46D4-2148-82D2-8E46-D84888833E5D}" name="Source">
+      <GROUP id="{0E195EFE-974C-CF53-43F0-1A33F4A31738}" name="Maximilian">
+        <GROUP id="{53D3D7CA-2BF9-2963-3A69-8BAD2AAC7659}" name="src">
+          <GROUP id="{8752F63A-8976-6722-E492-26CD41404CD7}" name="libs">
+            <FILE id="QaSA3Y" name="fft.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/fft.cpp"/>
+            <FILE id="TkSp3h" name="fft.h" compile="0" resource="0" file="Source/Maximilian/src/libs/fft.h"/>
+            <FILE id="sNcZ2p" name="maxiAtoms.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiAtoms.cpp"/>
+            <FILE id="fM4XpL" name="maxiAtoms.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiAtoms.h"/>
+            <FILE id="SZp0NF" name="maxiBark.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiBark.cpp"/>
+            <FILE id="ScLYlN" name="maxiBark.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiBark.h"/>
+            <FILE id="aO1No6" name="maxiConvolve.cpp" compile="1" resource="0"
+                  file="Source/Maximilian/src/libs/maxiConvolve.cpp"/>
+            <FILE id="bTgkPQ" name="maxiConvolve.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiConvolve.h"/>
+            <FILE id="bN9PEA" name="maxiFFT.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiFFT.cpp"/>
+            <FILE id="DtBQwQ" name="maxiFFT.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiFFT.h"/>
+            <FILE id="GUrFkQ" name="maxiGrains.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiGrains.cpp"/>
+            <FILE id="PtS0BQ" name="maxiGrains.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiGrains.h"/>
+            <FILE id="oBdTKF" name="maxim.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxim.h"/>
+            <FILE id="EGr2zQ" name="maxiMFCC.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiMFCC.cpp"/>
+            <FILE id="NuQ83h" name="maxiMFCC.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiMFCC.h"/>
+            <FILE id="P9U0uo" name="maxiReverb.cpp" compile="1" resource="0" file="Source/Maximilian/src/libs/maxiReverb.cpp"/>
+            <FILE id="SOdyHu" name="maxiReverb.h" compile="0" resource="0" file="Source/Maximilian/src/libs/maxiReverb.h"/>
+            <FILE id="J074Np" name="sineTable.h" compile="0" resource="0" file="Source/Maximilian/src/libs/sineTable.h"/>
+            <FILE id="v1paoI" name="stb_vorbis.c" compile="1" resource="0" file="Source/Maximilian/src/libs/stb_vorbis.c"/>
+            <FILE id="rZdxqC" name="stb_vorbis.h" compile="0" resource="0" file="Source/Maximilian/src/libs/stb_vorbis.h"/>
+          </GROUP>
+          <FILE id="FFxMF9" name="maximilian.cpp" compile="1" resource="0" file="Source/Maximilian/src/maximilian.cpp"/>
+          <FILE id="Vdlpy7" name="maximilian.h" compile="0" resource="0" file="Source/Maximilian/src/maximilian.h"/>
+        </GROUP>
+      </GROUP>
       <FILE id="iGF1gF" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
       <FILE id="Heg3GC" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="pb1D9q" name="SynthSound.cpp" compile="1" resource="0" file="Source/SynthSound.cpp"/>
