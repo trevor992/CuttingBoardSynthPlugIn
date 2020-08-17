@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "SynthSound.h"
+#include "Maximilian/src/maximilian.h"
 
 class SynthVoice : public juce::SynthesiserVoice
 {
@@ -32,5 +33,11 @@ public:
     
 private:
     float frequency;
+    float level;
+    
+    // as I add more voices I may want to store these in an array of MaxiOsc's and MaxiEnv's respectively 
+    maxiOsc osc1;
+    maxiEnv env1;
+    maxiFilter filter1;
     
 };

@@ -145,7 +145,6 @@ void CuttingBoardSynthPluginAudioProcessor::processBlock (juce::AudioBuffer<floa
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     
     buffer.clear();
-    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
 }
