@@ -35,24 +35,49 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::Synthesise
     
 }
 
+double SynthVoice::setAmpEnv()
+{
+    return env1.adsr(setOscType(), env1.trigger);
+}
+
+void SynthVoice::applyMasterGain(std::atomic<float>* gain)
+{
+    assert(*gain >= 0 && *gain <= 1.0);
+    masterGainFactor = *gain;
+}
+
+double SynthVoice::setOscType()
+{
+    assert(wavForm1 >= 0 && wavForm1 <= 2);
+    
+    double sample1, sample2;
+    
+    switch(wavForm1)
+    {
+        case 0:
+            sample1 = osc1.square(frequency);
+            break;
+        case 1:
+            sample1 = osc1.saw(frequency);
+        case 2:
+            sample1 = osc1.sinewave(frequency);
+    }
+    
+    return sample1;
+    
+    
+}
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
     // probably not the best place for these.
     // will have to move thse at some point and also add them controls
-    env1.setAttack(1000);
-    env1.setDecay(500);
-    env1.setSustain(0.5);
-    env1.setRelease(1000);
+    
     
     for (int sample = 0; sample < numSamples; ++sample)
-    {
-        float theWave = osc1.saw(frequency);
-        float theSound = env1.adsr(theWave, env1.trigger) * level;
-        float filteredSound = filter1.lores(theSound, 250, 5);
-        
+    {        
         for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
         {
-            outputBuffer.addSample(channel, startSample, filteredSound);
+            outputBuffer.addSample(channel, startSample, setAmpEnv() * masterGainFactor);
         }
         ++startSample;
     }
@@ -66,5 +91,15 @@ void SynthVoice::pitchWheelMoved(int newPitchWheelValue)
 
 void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 {
+    
+}
+void SynthVoice::applyAdsrParams(std::atomic<float>* atk, std::atomic<float>* dec, std::atomic<float>* sus, std::atomic<float>* rel)
+{
+    //strange bug occurs when sustain knob is set to 0 and decay knob is greater than 5ms
+    assert(*sus <= 1.0f && *sus >= 0.0f);
+    env1.setAttack(*atk);
+    env1.setDecay(*dec);
+    env1.setSustain(*sus);
+    env1.setRelease(*rel);
     
 }

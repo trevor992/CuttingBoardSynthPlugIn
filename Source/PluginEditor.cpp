@@ -15,7 +15,12 @@ CuttingBoardSynthPluginAudioProcessorEditor::CuttingBoardSynthPluginAudioProcess
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    initSliders();
+    initLabels();
+    //sliderTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.processorTree, "AmpAtk",  adsrKnobs[0]);
+    setSize (675, 600);
+    setResizable(false, false);
+    
 }
 
 CuttingBoardSynthPluginAudioProcessorEditor::~CuttingBoardSynthPluginAudioProcessorEditor()
@@ -25,16 +30,75 @@ CuttingBoardSynthPluginAudioProcessorEditor::~CuttingBoardSynthPluginAudioProces
 //==============================================================================
 void CuttingBoardSynthPluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
+    
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    
 }
 
 void CuttingBoardSynthPluginAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    const int totalHeight = getHeight();
+    const int totalWidth = getWidth();
+    const int adsrKnobWidth = totalWidth/4 - 8;
+    const int adsrKnobHeight = adsrKnobWidth;
+    const int padding = 4;
+    int adsrXPos = 4;
+    int adsrYPos = 24;
+    const int masterGainYPos = adsrKnobHeight + adsrYPos;
+    const int masterGainWidth = adsrKnobWidth / 2;
+    const int masterGainHeight = adsrKnobHeight;
+    
+    //position the ADSR Knobs
+    for (int i = 0; i < adsrKnobs.size();i++)
+    {
+        adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
+        adsrXPos += padding + adsrKnobWidth;
+    }
+    adsrXPos -= padding + adsrKnobWidth;
+    masterGain.setBounds(adsrXPos, masterGainYPos, masterGainWidth, masterGainHeight);
+    
+}
+void CuttingBoardSynthPluginAudioProcessorEditor::initSliders()
+{
+    masterGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(),"MasterGain", masterGain);
+    masterGain.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    masterGain.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 20);
+    
+    addAndMakeVisible(&masterGain);
+    masterGain.setNumDecimalPlacesToDisplay(2);
+    
+    for (int i = 0; i < adsrKnobs.size(); i++)
+    {
+        //allocating memory on heap
+        adsrAttachments[i] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(), audioProcessor.adsrAPVTIdentifiers[i],adsrKnobs[i]);
+        
+        adsrKnobs[i].setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+        adsrKnobs[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 130, 20);
+        addAndMakeVisible(&adsrKnobs[i]);
+        //sustain knob
+        if (i == 2)
+        {
+            adsrKnobs[i].setNumDecimalPlacesToDisplay(1);
+        }else
+        {
+            adsrKnobs[i].setTextValueSuffix("ms");
+            adsrKnobs[i].setNumDecimalPlacesToDisplay(2);
+        }
+        
+        
+    }
+}
+
+void CuttingBoardSynthPluginAudioProcessorEditor::initLabels()
+{
+    for (int i = 0; i < adsrLabels.size(); i++)
+    {
+        adsrLabels[i].setText(adsrText[i], juce::dontSendNotification);
+        adsrLabels[i].setJustificationType(juce::Justification::centred);
+        adsrLabels[i].attachToComponent(&adsrKnobs[i], false);
+        addAndMakeVisible(&adsrLabels[i]);
+    }
 }

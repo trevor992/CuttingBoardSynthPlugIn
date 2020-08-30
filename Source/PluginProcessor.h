@@ -50,17 +50,30 @@ public:
     void setCurrentProgram (int index) override;
     const juce::String getProgramName (int index) override;
     void changeProgramName (int index, const juce::String& newName) override;
-
+    
+    //getter for the AudioProcessorValueTreeState i.e. processorTree
+    juce::AudioProcessorValueTreeState& getProcessorTree() { return processorTree; }
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    const std::array<std::string, 4> adsrAPVTIdentifiers = {"AmpAtk", "AmpDec", "AmpSus", "AmpRel"};
+    
 
 private:
     //==============================================================================
     juce::Synthesiser synth;
     SynthVoice* voice;
-    
+    float const minEnvTime;
+    float const maxEnvTime;
+    float const defEnvtime;
+    float const minVolEnvTime;
+    float const maxVolEnvTime;
+    float const defVolEnvTime;
+    juce::AudioProcessorValueTreeState processorTree;
     double lastSampleRate;
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CuttingBoardSynthPluginAudioProcessor)
 };

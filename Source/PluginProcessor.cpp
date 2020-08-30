@@ -19,7 +19,10 @@ CuttingBoardSynthPluginAudioProcessor::CuttingBoardSynthPluginAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), minEnvTime(0.5f), maxEnvTime(10000.0), defEnvtime(0.5f),minVolEnvTime(0.0f), maxVolEnvTime(1.0f),
+defVolEnvTime(0.0f),
+//second parameter 
+processorTree(*this, nullptr, "PARAMETERS",createParameters())
 #endif
 {
     synth.clearVoices();
@@ -144,6 +147,20 @@ void CuttingBoardSynthPluginAudioProcessor::processBlock (juce::AudioBuffer<floa
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     
+    for (int i =0; i < synth.getNumVoices(); i++)
+    {
+        if ((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
+        {
+            
+            voice->applyAdsrParams(processorTree.getRawParameterValue(adsrAPVTIdentifiers[0]),processorTree.getRawParameterValue(adsrAPVTIdentifiers[1]), processorTree.getRawParameterValue(adsrAPVTIdentifiers[2]), processorTree.getRawParameterValue(adsrAPVTIdentifiers[3]));
+            
+            
+            voice->applyMasterGain(processorTree.getRawParameterValue("MasterGain"));
+
+
+        }
+    }
+    
     buffer.clear();
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
@@ -172,6 +189,18 @@ void CuttingBoardSynthPluginAudioProcessor::setStateInformation (const void* dat
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+juce::AudioProcessorValueTreeState::ParameterLayout CuttingBoardSynthPluginAudioProcessor::createParameters()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(adsrAPVTIdentifiers[0], "AmpAttack", minEnvTime,maxEnvTime,defEnvtime));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(adsrAPVTIdentifiers[1], "AmpDecay", minEnvTime, maxEnvTime, defEnvtime));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(adsrAPVTIdentifiers[2], "AmpSustain", minVolEnvTime, maxVolEnvTime,defVolEnvTime));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(adsrAPVTIdentifiers[3], "AmpRelease", minEnvTime,maxEnvTime,defEnvtime));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("MasterGain", "MasterGain", 0.0f, 1.0f, 0.0f));
+    
+    return {params.begin(), params.end()};
 }
 
 //==============================================================================
