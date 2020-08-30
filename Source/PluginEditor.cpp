@@ -11,13 +11,13 @@
 
 //==============================================================================
 CuttingBoardSynthPluginAudioProcessorEditor::CuttingBoardSynthPluginAudioProcessorEditor (CuttingBoardSynthPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), mOscGui(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     initSliders();
     initLabels();
-    //sliderTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.processorTree, "AmpAtk",  adsrKnobs[0]);
+    
     setSize (675, 600);
     setResizable(false, false);
     
@@ -47,9 +47,11 @@ void CuttingBoardSynthPluginAudioProcessorEditor::resized()
     const int padding = 4;
     int adsrXPos = 4;
     int adsrYPos = 24;
-    const int masterGainYPos = adsrKnobHeight + adsrYPos;
     const int masterGainWidth = adsrKnobWidth / 2;
     const int masterGainHeight = adsrKnobHeight;
+    const int masterGainYPos = totalHeight - masterGainHeight - 16;
+    const int masterGainXPos = (adsrKnobWidth * 4) - masterGainWidth;
+    
     
     //position the ADSR Knobs
     for (int i = 0; i < adsrKnobs.size();i++)
@@ -57,8 +59,7 @@ void CuttingBoardSynthPluginAudioProcessorEditor::resized()
         adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
         adsrXPos += padding + adsrKnobWidth;
     }
-    adsrXPos -= padding + adsrKnobWidth;
-    masterGain.setBounds(adsrXPos, masterGainYPos, masterGainWidth, masterGainHeight);
+    masterGain.setBounds(masterGainXPos, masterGainYPos, masterGainWidth, masterGainHeight);
     
 }
 void CuttingBoardSynthPluginAudioProcessorEditor::initSliders()
@@ -101,4 +102,7 @@ void CuttingBoardSynthPluginAudioProcessorEditor::initLabels()
         adsrLabels[i].attachToComponent(&adsrKnobs[i], false);
         addAndMakeVisible(&adsrLabels[i]);
     }
+    masterGainLabel.setText("Output Volume", juce::dontSendNotification);
+    masterGainLabel.setJustificationType(juce::Justification::centred);
+    masterGainLabel.attachToComponent(&masterGain, false);
 }

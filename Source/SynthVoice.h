@@ -31,14 +31,16 @@ public:
     //called ot let the voice know the aftertouch has changed
     void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override;
     
-    void applyMasterGain(std::atomic<float>* gain);
-    
-    void applyAdsrParams(std::atomic<float>* atk, std::atomic<float>* dec, std::atomic<float>* sus, std::atomic<float>* rel);
-    
+    //must use load function from std::atomic class to get this as a float value
+    void applyMasterGain(float gain);
+    //must use load function from the std::atomic class to get the float value
+    void applyAdsrParams(float atk, float dec, float sus,float rel);
     
     double setAmpEnv();
     
     double setOscType();
+    //must use load function in the std::atomic class to get the int value from
+    void getOscType(int sel1, int sel2);
     
 private:
     float frequency;
@@ -48,6 +50,7 @@ private:
     
     // as I add more voices I may want to store these in an array of MaxiOsc's and MaxiEnv's respectively 
     maxiOsc osc1;
+    maxiOsc osc2;
     maxiEnv env1;
     maxiFilter filter1;
     

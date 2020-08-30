@@ -64,12 +64,13 @@ private:
     //==============================================================================
     juce::Synthesiser synth;
     SynthVoice* voice;
-    float const minEnvTime;
-    float const maxEnvTime;
-    float const defEnvtime;
-    float const minVolEnvTime;
-    float const maxVolEnvTime;
-    float const defVolEnvTime;
+    const float minEnvTime;
+    const float maxEnvTime;
+    const float defEnvtime;
+    const float minVolEnvTime;
+    const float maxVolEnvTime;
+    const float defVolEnvTime;
+    const int cNumTypesOscs;
     juce::AudioProcessorValueTreeState processorTree;
     double lastSampleRate;
     

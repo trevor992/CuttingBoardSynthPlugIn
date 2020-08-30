@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Osc.h"
 
 //==============================================================================
 /**
@@ -39,7 +40,9 @@ private:
     std::array<juce::Slider, 4> adsrKnobs;
     std::array<juce::Label, 4> adsrLabels;
     juce::Slider masterGain;
-    std::array<std::string , 4> adsrText = {"attack", "decay", "sustain", "release"};
+    juce::Label masterGainLabel;
+    Osc mOscGui;
+    std::array<std::string , 4> const adsrText = {"attack", "decay", "sustain", "release"};
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>, 4> adsrAttachments;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterGainAttachment;
     

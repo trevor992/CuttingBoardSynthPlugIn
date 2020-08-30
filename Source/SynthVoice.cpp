@@ -40,27 +40,42 @@ double SynthVoice::setAmpEnv()
     return env1.adsr(setOscType(), env1.trigger);
 }
 
-void SynthVoice::applyMasterGain(std::atomic<float>* gain)
+void SynthVoice::applyMasterGain(float gain)
 {
-    assert(*gain >= 0 && *gain <= 1.0);
-    masterGainFactor = *gain;
+    assert(gain >= 0 && gain <= 1.0);
+    masterGainFactor = gain;
 }
 
 double SynthVoice::setOscType()
 {
-    assert(wavForm1 >= 0 && wavForm1 <= 2);
+    assert(wavForm1 >= 0 && wavForm1 <= 3);
+    assert(wavForm2 >= 0 && wavForm2 <= 3);
     
     double sample1, sample2;
-    
+    //case three will be for user recorded wav's at some point.
     switch(wavForm1)
     {
         case 0:
-            sample1 = osc1.square(frequency);
+            sample1 = osc1.sinewave(frequency);
             break;
         case 1:
             sample1 = osc1.saw(frequency);
         case 2:
-            sample1 = osc1.sinewave(frequency);
+            sample1 = osc1.square(frequency);
+        case 3:
+            sample1 = osc1.saw(frequency);
+    }
+    
+    switch (wavForm2) {
+        case 0:
+            sample2 = osc2.sinewave(frequency);
+            break;
+        case 1:
+            sample2 = osc2.saw(frequency);
+        case 2:
+            sample2 = osc2.square(frequency);
+        case 3:
+            sample2 = osc2.saw(frequency);
     }
     
     return sample1;
@@ -93,13 +108,18 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 {
     
 }
-void SynthVoice::applyAdsrParams(std::atomic<float>* atk, std::atomic<float>* dec, std::atomic<float>* sus, std::atomic<float>* rel)
+void SynthVoice::applyAdsrParams(float atk, float dec, float sus, float rel)
 {
     //strange bug occurs when sustain knob is set to 0 and decay knob is greater than 5ms
-    assert(*sus <= 1.0f && *sus >= 0.0f);
-    env1.setAttack(*atk);
-    env1.setDecay(*dec);
-    env1.setSustain(*sus);
-    env1.setRelease(*rel);
+    assert(sus <= 1.0f && sus >= 0.0f);
+    env1.setAttack(atk);
+    env1.setDecay(dec);
+    env1.setSustain(sus);
+    env1.setRelease(rel);
+    
+}
+
+void SynthVoice::getOscType(int sel1, int sel2){
+    assert( (sel1 >= 0 && sel1 <= 3) && (sel2 >= 0 && sel2 <= 3));
     
 }
