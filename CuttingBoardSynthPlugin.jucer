@@ -5,8 +5,16 @@
               jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="qlyeXf" name="CuttingBoardSynthPlugin">
     <GROUP id="{C50B46D4-2148-82D2-8E46-D84888833E5D}" name="Source">
-      <FILE id="V10dOs" name="Osc.h" compile="0" resource="0" file="Source/Osc.h"/>
-      <FILE id="ZW9YD8" name="Osc.cpp" compile="1" resource="0" file="Source/Osc.cpp"/>
+      <FILE id="YAC2K3" name="MasterOutComponent.cpp" compile="1" resource="0"
+            file="Source/MasterOutComponent.cpp"/>
+      <FILE id="rcvdnT" name="MasterOutComponent.h" compile="0" resource="0"
+            file="Source/MasterOutComponent.h"/>
+      <FILE id="wWuFDS" name="OscTwo.cpp" compile="1" resource="0" file="Source/OscTwo.cpp"/>
+      <FILE id="AXPkER" name="OscTwo.h" compile="0" resource="0" file="Source/OscTwo.h"/>
+      <FILE id="R8lhJ7" name="MasterEnv.cpp" compile="1" resource="0" file="Source/MasterEnv.cpp"/>
+      <FILE id="ZpXtLt" name="MasterEnv.h" compile="0" resource="0" file="Source/MasterEnv.h"/>
+      <FILE id="V10dOs" name="OscOne.h" compile="0" resource="0" file="Source/OscOne.h"/>
+      <FILE id="ZW9YD8" name="OscOne.cpp" compile="1" resource="0" file="Source/OscOne.cpp"/>
       <GROUP id="{0E195EFE-974C-CF53-43F0-1A33F4A31738}" name="Maximilian">
         <GROUP id="{53D3D7CA-2BF9-2963-3A69-8BAD2AAC7659}" name="src">
           <GROUP id="{8752F63A-8976-6722-E492-26CD41404CD7}" name="libs">
