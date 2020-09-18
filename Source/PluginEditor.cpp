@@ -17,7 +17,7 @@ CuttingBoardSynthPluginAudioProcessorEditor::CuttingBoardSynthPluginAudioProcess
     // editor's size to whatever you need it to be.
     initSliders();
     initLabels();
-    
+    addAndMakeVisible(&mOscGui);
     setSize (675, 600);
     setResizable(false, false);
     
@@ -53,6 +53,7 @@ void CuttingBoardSynthPluginAudioProcessorEditor::resized()
     const int masterGainXPos = (adsrKnobWidth * 4) - masterGainWidth;
     
     
+    
     //position the ADSR Knobs
     for (int i = 0; i < adsrKnobs.size();i++)
     {
@@ -60,6 +61,7 @@ void CuttingBoardSynthPluginAudioProcessorEditor::resized()
         adsrXPos += padding + adsrKnobWidth;
     }
     masterGain.setBounds(masterGainXPos, masterGainYPos, masterGainWidth, masterGainHeight);
+    mOscGui.setBounds(padding, 325, totalWidth, totalHeight / 4 );
     
 }
 void CuttingBoardSynthPluginAudioProcessorEditor::initSliders()
@@ -85,7 +87,7 @@ void CuttingBoardSynthPluginAudioProcessorEditor::initSliders()
             adsrKnobs[i].setNumDecimalPlacesToDisplay(1);
         }else
         {
-            adsrKnobs[i].setTextValueSuffix("ms");
+            adsrKnobs[i].setTextValueSuffix("s");
             adsrKnobs[i].setNumDecimalPlacesToDisplay(2);
         }
         

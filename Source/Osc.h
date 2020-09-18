@@ -16,7 +16,7 @@
 //==============================================================================
 /*
 */
-class Osc  : public juce::Component, public juce::ComboBox::Listener
+class Osc  : public juce::Component
 {
 public:
     Osc(CuttingBoardSynthPluginAudioProcessor&);
@@ -25,13 +25,18 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     
-    void comboBoxChanged(juce::ComboBox* comboBox) override;
-    void initComboBoxes();
     
 
 private:
+    void initComboBoxes();
+    void initLabels();
     juce::ComboBox mOscOneSelect;
     juce::ComboBox mOscTwoSelect;
+    
+    juce::Label mOscOneLabel;
+    juce::Label mOscTwoLabel;
+    
+    
     const std::array<std::string, 4> cOscList;
     
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> mpOscOneSelectAttachment;

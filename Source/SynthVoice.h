@@ -34,24 +34,27 @@ public:
     //must use load function from std::atomic class to get this as a float value
     void applyMasterGain(float gain);
     //must use load function from the std::atomic class to get the float value
-    void applyAdsrParams(float atk, float dec, float sus,float rel);
+    void applyAdsrParams(float atk ,float dec, float sus,float rel);
     
     double setAmpEnv();
     
     double setOscType();
     //must use load function in the std::atomic class to get the int value from
     void getOscType(int sel1, int sel2);
-    
+    void setADSRSampleRate(double sampleRate);
 private:
     float frequency;
     float level;
     int wavForm1, wavForm2, recWavForm = 1;
     float masterGainFactor = 0.0;
     
+    
     // as I add more voices I may want to store these in an array of MaxiOsc's and MaxiEnv's respectively 
     maxiOsc osc1;
     maxiOsc osc2;
-    maxiEnv env1;
+    juce::ADSR env1;
+    juce::ADSR::Parameters adsrParams;
+    
     maxiFilter filter1;
     
 };

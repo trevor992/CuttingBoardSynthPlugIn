@@ -14,6 +14,9 @@
 //==============================================================================
 Osc::Osc(CuttingBoardSynthPluginAudioProcessor& p): cOscList({"Sine Wave", "Saw Wave", "Square Wave", "User Wav"}), audioProcessor(p)
 {
+    
+    
+    setSize(675, 300);
     initComboBoxes();
 }
 
@@ -36,7 +39,12 @@ void Osc::resized()
 {
     const int oscCompHeight = getHeight();
     const int oscCompWidth = getWidth();
+    const int comboBoxWidth = 100;
+    const int comboBoxHeight = 25;
+    const int padding = 16;
     
+    mOscOneSelect.setBounds(0, 0, comboBoxWidth, comboBoxHeight);
+    mOscTwoSelect.setBounds(comboBoxWidth + padding, 0, comboBoxWidth, comboBoxHeight);        
     
     
 }
@@ -57,6 +65,18 @@ void Osc::initComboBoxes(){
     
 }
 
-void Osc::comboBoxChanged(juce::ComboBox *comboBox){
+void Osc::initLabels()
+{
+    mOscOneLabel.setText("Osc 1 Select", juce::dontSendNotification);
+    mOscTwoLabel.setText("Osc 2 Select", juce::dontSendNotification);
+    
+    mOscOneLabel.attachToComponent(&mOscOneSelect, false);
+    mOscTwoLabel.attachToComponent(&mOscTwoSelect, false);
+    
+    addAndMakeVisible(mOscOneLabel);
+    addAndMakeVisible(mOscTwoLabel);
+    
+    
+    
     
 }

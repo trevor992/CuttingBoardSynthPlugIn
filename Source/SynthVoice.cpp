@@ -18,7 +18,7 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound* sound)
 }
 void SynthVoice::stopNote(float velocity, bool allowTailOff)
 {
-    env1.trigger = 0;
+    env1.noteOff();
     allowTailOff = true;
     if (velocity == 0)
     {
@@ -28,16 +28,11 @@ void SynthVoice::stopNote(float velocity, bool allowTailOff)
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-    env1.trigger = 1;
+    env1.noteOn();
     level = velocity;
     frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
    
     
-}
-
-double SynthVoice::setAmpEnv()
-{
-    return env1.adsr(setOscType(), env1.trigger);
 }
 
 void SynthVoice::applyMasterGain(float gain)
@@ -84,15 +79,12 @@ double SynthVoice::setOscType()
 }
 void SynthVoice::renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
 {
-    // probably not the best place for these.
-    // will have to move thse at some point and also add them controls
-    
-    
+    env1.setParameters(adsrParams);
     for (int sample = 0; sample < numSamples; ++sample)
     {        
         for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel)
         {
-            outputBuffer.addSample(channel, startSample, setAmpEnv() * masterGainFactor);
+            outputBuffer.addSample(channel, startSample, env1.getNextSample() * setOscType() * masterGainFactor);
         }
         ++startSample;
     }
@@ -112,14 +104,22 @@ void SynthVoice::applyAdsrParams(float atk, float dec, float sus, float rel)
 {
     //strange bug occurs when sustain knob is set to 0 and decay knob is greater than 5ms
     assert(sus <= 1.0f && sus >= 0.0f);
-    env1.setAttack(atk);
-    env1.setDecay(dec);
-    env1.setSustain(sus);
-    env1.setRelease(rel);
+    
+    adsrParams.attack = atk;
+    adsrParams.decay = dec;
+    adsrParams.sustain = sus;
+    adsrParams.release = rel;
     
 }
 
 void SynthVoice::getOscType(int sel1, int sel2){
     assert( (sel1 >= 0 && sel1 <= 3) && (sel2 >= 0 && sel2 <= 3));
-    
+    wavForm1 = sel1;
+    wavForm2 = sel2;
+
+}
+
+void SynthVoice::setADSRSampleRate(double sampleRate)
+{
+    env1.setSampleRate(sampleRate);
 }
