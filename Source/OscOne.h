@@ -30,7 +30,7 @@ public:
 private:
     void initComboBoxes();
     void initLabels();
-    juce::ComboBox mOscOneSelect;
+    juce::ComboBox oscSelectComboBox;
     juce::ComboBox mOscTwoSelect;
     
     juce::Label mOscOneLabel;

@@ -12,11 +12,9 @@
 #include "MasterEnv.h"
 
 //==============================================================================
-MasterEnv::MasterEnv()
+MasterEnv::MasterEnv(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    setSize(50, 275);
 }
 
 MasterEnv::~MasterEnv()
@@ -25,27 +23,70 @@ MasterEnv::~MasterEnv()
 
 void MasterEnv::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
+    juce::Rectangle<int> border = getLocalBounds();
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    g.setColour(juce::Colours::yellow);
+    g.drawRect(border);
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    g.setColour(juce::Colours::white);
+    g.setFont(14.0f);
+    g.drawText("Master Amp Envelope", getLocalBounds(),
+        juce::Justification::centred, true);
 
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("MasterEnv", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+   
 }
 
 void MasterEnv::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    const int totalHeight = getHeight();
+    const int totalWidth = getWidth();
+    const int adsrKnobWidth = totalWidth / 4 - 8;
+    const int adsrKnobHeight = adsrKnobWidth;
+    const int padding = 4;
+    int adsrXPos = 4;
+    int adsrYPos = 24;
 
+    for (int i = 0; i < adsrKnobs.size(); i++)
+    {
+        adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
+        adsrXPos += padding + adsrKnobWidth;
+    }
+
+}
+
+void MasterEnv::initLabels()
+{
+    for (int i = 0; i < adsrLabels.size(); i++)
+    {
+        adsrLabels[i].setText(adsrText[i], juce::dontSendNotification);
+        adsrLabels[i].setJustificationType(juce::Justification::centred);
+        adsrLabels[i].attachToComponent(&adsrKnobs[i], false);
+        addAndMakeVisible(&adsrLabels[i]);
+    }
+
+}
+
+void MasterEnv::initSliders()
+{
+    for (int i = 0; i < adsrKnobs.size(); i++)
+    {
+        //allocating memory on heap
+        adsrAttachments[i] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(), audioProcessor.adsrAPVTIdentifiers[i], adsrKnobs[i]);
+
+        adsrKnobs[i].setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+        adsrKnobs[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 130, 20);
+        addAndMakeVisible(&adsrKnobs[i]);
+        //sustain knob
+        if (i == 2)
+        {
+            adsrKnobs[i].setNumDecimalPlacesToDisplay(1);
+        }
+        else
+        {
+            adsrKnobs[i].setTextValueSuffix("s");
+            adsrKnobs[i].setNumDecimalPlacesToDisplay(2);
+        }
+
+
+    }
 }

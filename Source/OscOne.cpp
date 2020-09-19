@@ -13,10 +13,9 @@
 
 //==============================================================================
 OscOne::OscOne(CuttingBoardSynthPluginAudioProcessor& p): cOscList({"Sine Wave", "Saw Wave", "Square Wave", "User Wav"}), audioProcessor(p)
-{
+{   
     
-    
-    setSize(675, 300);
+    setSize(625, 100);
     initComboBoxes();
 }
 
@@ -26,12 +25,17 @@ OscOne::~OscOne()
 
 void OscOne::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
+    juce::Rectangle<int> border = getLocalBounds();
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    g.setColour(juce::Colours::yellow);
+
+    g.drawRect(border);
+
+    g.setColour(juce::Colours::white);
+    g.setFont(14.0f);
+    g.drawText("Osc One Component", getLocalBounds(),
+        juce::Justification::centred, true);
+
 
 }
 
@@ -39,26 +43,25 @@ void OscOne::resized()
 {
     const int oscCompHeight = getHeight();
     const int oscCompWidth = getWidth();
-    const int comboBoxWidth = 100;
+    const int comboBoxWidth = 150;
     const int comboBoxHeight = 25;
-    const int padding = 16;
-    
-    mOscOneSelect.setBounds(0, 0, comboBoxWidth, comboBoxHeight);
-    mOscTwoSelect.setBounds(comboBoxWidth + padding, 0, comboBoxWidth, comboBoxHeight);        
+    const int padding = 25;
+
+    oscSelectComboBox.setBounds(0, 0, comboBoxWidth, comboBoxHeight);
     
     
 }
 
 void OscOne::initComboBoxes(){
-    mpOscOneSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(),"waveTypeOne", mOscOneSelect );
+    mpOscOneSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(),"waveTypeOne", oscSelectComboBox );
     mpOscTwoSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(), "waveTypeTwo", mOscTwoSelect);
     
     for (int i = 0; i < cOscList.size(); i++){
-        mOscOneSelect.addItem(cOscList[i], i+1);
+        oscSelectComboBox.addItem(cOscList[i], i+1);
         mOscTwoSelect.addItem(cOscList[i], i+1);
-        mOscOneSelect.setJustificationType(juce::Justification::centred);
+        oscSelectComboBox.setJustificationType(juce::Justification::centred);
         mOscTwoSelect.setJustificationType(juce::Justification::centred);
-        addAndMakeVisible(&mOscOneSelect);
+        addAndMakeVisible(&oscSelectComboBox);
         addAndMakeVisible(&mOscTwoSelect);
         
     }
@@ -70,7 +73,7 @@ void OscOne::initLabels()
     mOscOneLabel.setText("Osc 1 Select", juce::dontSendNotification);
     mOscTwoLabel.setText("Osc 2 Select", juce::dontSendNotification);
     
-    mOscOneLabel.attachToComponent(&mOscOneSelect, false);
+    mOscOneLabel.attachToComponent(&oscSelectComboBox, false);
     mOscTwoLabel.attachToComponent(&mOscTwoSelect, false);
     
     addAndMakeVisible(mOscOneLabel);

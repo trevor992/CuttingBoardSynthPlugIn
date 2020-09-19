@@ -12,10 +12,9 @@
 #include "OscTwo.h"
 
 //==============================================================================
-OscTwo::OscTwo()
+OscTwo::OscTwo(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+    setSize(625, 100);
 
 }
 
@@ -25,22 +24,17 @@ OscTwo::~OscTwo()
 
 void OscTwo::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
+    juce::Rectangle<int> border = getLocalBounds();
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
+    g.setColour(juce::Colours::yellow);
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
+    g.drawRect(border);
 
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    g.setColour(juce::Colours::white);
+    g.setFont(14.0f);
+    g.drawText("Osc Two Component", getLocalBounds(),
+        juce::Justification::centred, true);
 
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("OscTwo", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void OscTwo::resized()

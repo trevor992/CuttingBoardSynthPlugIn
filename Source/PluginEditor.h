@@ -11,6 +11,8 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "OscOne.h"
+#include "OscTwo.h"
+#include "MasterOutComponent.h"
 
 //==============================================================================
 /**
@@ -26,8 +28,6 @@ CuttingBoardSynthPluginAudioProcessorEditor (CuttingBoardSynthPluginAudioProcess
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-    void initSliders();
-    void initLabels();
     //likely will get rid of the Sliderlisten class
    
 
@@ -37,14 +37,14 @@ private:
     
 
     CuttingBoardSynthPluginAudioProcessor& audioProcessor;
-    std::array<juce::Slider, 4> adsrKnobs;
-    std::array<juce::Label, 4> adsrLabels;
-    juce::Slider masterGain;
-    juce::Label masterGainLabel;
-    OscOne mOscGui;
-    std::array<std::string , 4> const adsrText = {"attack", "decay", "sustain", "release"};
-    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>, 4> adsrAttachments;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> masterGainAttachment;
+
+    OscOne oscOneGuiContainer;
+
+    OscTwo oscTwoGuiContainer;
+
+    MasterOutComponent masterOutGuiComponent;
+
+
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CuttingBoardSynthPluginAudioProcessorEditor)
 };

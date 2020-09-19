@@ -12,10 +12,9 @@
 #include "MasterOutComponent.h"
 
 //==============================================================================
-MasterOutComponent::MasterOutComponent()
+MasterOutComponent::MasterOutComponent(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+    setSize(550, 100);
 
 }
 
@@ -31,10 +30,10 @@ void MasterOutComponent::paint (juce::Graphics& g)
        You should replace everything in this method with your own
        drawing code..
     */
+    juce::Rectangle<int> border = getLocalBounds();
 
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
-    g.setColour (juce::Colours::grey);
+    g.setColour (juce::Colours::yellow);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (juce::Colours::white);
@@ -48,4 +47,14 @@ void MasterOutComponent::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
+}
+
+void MasterOutComponent::initSliders()
+{
+    masterGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(), "MasterGain", masterGain);
+    masterGain.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    masterGain.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 20);
+
+    addAndMakeVisible(&masterGain);
+    masterGain.setNumDecimalPlacesToDisplay(2);
 }
