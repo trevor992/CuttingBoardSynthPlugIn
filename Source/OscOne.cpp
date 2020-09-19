@@ -9,10 +9,10 @@
 */
 
 #include <JuceHeader.h>
-#include "Osc.h"
+#include "OscOne.h"
 
 //==============================================================================
-Osc::Osc(CuttingBoardSynthPluginAudioProcessor& p): cOscList({"Sine Wave", "Saw Wave", "Square Wave", "User Wav"}), audioProcessor(p)
+OscOne::OscOne(CuttingBoardSynthPluginAudioProcessor& p): cOscList({"Sine Wave", "Saw Wave", "Square Wave", "User Wav"}), audioProcessor(p)
 {
     
     
@@ -20,11 +20,11 @@ Osc::Osc(CuttingBoardSynthPluginAudioProcessor& p): cOscList({"Sine Wave", "Saw 
     initComboBoxes();
 }
 
-Osc::~Osc()
+OscOne::~OscOne()
 {
 }
 
-void Osc::paint (juce::Graphics& g)
+void OscOne::paint (juce::Graphics& g)
 {
     /* This demo code just fills the component's background and
        draws some placeholder text to get you started.
@@ -35,7 +35,7 @@ void Osc::paint (juce::Graphics& g)
 
 }
 
-void Osc::resized()
+void OscOne::resized()
 {
     const int oscCompHeight = getHeight();
     const int oscCompWidth = getWidth();
@@ -49,7 +49,7 @@ void Osc::resized()
     
 }
 
-void Osc::initComboBoxes(){
+void OscOne::initComboBoxes(){
     mpOscOneSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(),"waveTypeOne", mOscOneSelect );
     mpOscTwoSelectAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(), "waveTypeTwo", mOscTwoSelect);
     
@@ -65,7 +65,7 @@ void Osc::initComboBoxes(){
     
 }
 
-void Osc::initLabels()
+void OscOne::initLabels()
 {
     mOscOneLabel.setText("Osc 1 Select", juce::dontSendNotification);
     mOscTwoLabel.setText("Osc 2 Select", juce::dontSendNotification);

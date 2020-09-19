@@ -37,14 +37,12 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::Synthesise
 
 void SynthVoice::applyMasterGain(float gain)
 {
-    assert(gain >= 0 && gain <= 1.0);
     masterGainFactor = gain;
 }
 
 double SynthVoice::setOscType()
 {
-    assert(wavForm1 >= 0 && wavForm1 <= 3);
-    assert(wavForm2 >= 0 && wavForm2 <= 3);
+  
     
     double sample1, sample2;
     //case three will be for user recorded wav's at some point.
@@ -102,8 +100,6 @@ void SynthVoice::controllerMoved(int controllerNumber, int newControllerValue)
 }
 void SynthVoice::applyAdsrParams(float atk, float dec, float sus, float rel)
 {
-    //strange bug occurs when sustain knob is set to 0 and decay knob is greater than 5ms
-    assert(sus <= 1.0f && sus >= 0.0f);
     
     adsrParams.attack = atk;
     adsrParams.decay = dec;
@@ -113,7 +109,6 @@ void SynthVoice::applyAdsrParams(float atk, float dec, float sus, float rel)
 }
 
 void SynthVoice::getOscType(int sel1, int sel2){
-    assert( (sel1 >= 0 && sel1 <= 3) && (sel2 >= 0 && sel2 <= 3));
     wavForm1 = sel1;
     wavForm2 = sel2;
 

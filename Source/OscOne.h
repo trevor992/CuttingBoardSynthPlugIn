@@ -16,11 +16,11 @@
 //==============================================================================
 /*
 */
-class Osc  : public juce::Component
+class OscOne  : public juce::Component
 {
 public:
-    Osc(CuttingBoardSynthPluginAudioProcessor&);
-    ~Osc() override;
+    OscOne(CuttingBoardSynthPluginAudioProcessor&);
+    ~OscOne() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -44,5 +44,5 @@ private:
     
     CuttingBoardSynthPluginAudioProcessor& audioProcessor;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscOne)
 };
