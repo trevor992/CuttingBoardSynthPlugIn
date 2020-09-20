@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "MasterEnv.h"
 
 //==============================================================================
 /*
@@ -31,6 +32,8 @@ private:
 
     void initSliders();
     void initLabels();
+
+    MasterEnv masterEnvelopeGuiComponent;
 
     juce::Slider masterGain;
     juce::Label masterGainLabel;

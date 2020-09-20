@@ -26,7 +26,21 @@ public:
     void resized() override;
 
 private:
+    void initComboBoxes();
+    void initLabels();
+
     CuttingBoardSynthPluginAudioProcessor& audioProcessor;
+
+    juce::ComboBox oscSelectComboBox;
+
+    juce::Label oscLabel;
+
+    const std::array<std::string, 4> oscList;
+
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscComboBoxAttachment;
+
+
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscTwo)
 };

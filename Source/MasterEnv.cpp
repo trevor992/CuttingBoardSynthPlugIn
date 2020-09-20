@@ -14,7 +14,9 @@
 //==============================================================================
 MasterEnv::MasterEnv(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
 {
-    setSize(50, 275);
+    initSliders();
+    initLabels();
+    setSize(275, 50);
 }
 
 MasterEnv::~MasterEnv()
@@ -40,15 +42,16 @@ void MasterEnv::resized()
 {
     const int totalHeight = getHeight();
     const int totalWidth = getWidth();
-    const int adsrKnobWidth = totalWidth / 4 - 8;
-    const int adsrKnobHeight = adsrKnobWidth;
-    const int padding = 4;
-    int adsrXPos = 4;
-    int adsrYPos = 24;
+    const int adsrKnobWidth = 50;
+    const int adsrKnobHeight = 50;
+    const int padding = 25;
+    int adsrXPos = 0;
+    int adsrYPos = 0;
 
     for (int i = 0; i < adsrKnobs.size(); i++)
     {
         adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
+        adsrKnobs[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, false, adsrKnobWidth, 10);
         adsrXPos += padding + adsrKnobWidth;
     }
 

@@ -12,8 +12,10 @@
 #include "MasterOutComponent.h"
 
 //==============================================================================
-MasterOutComponent::MasterOutComponent(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
+MasterOutComponent::MasterOutComponent(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p), masterEnvelopeGuiComponent(p)
 {
+    addAndMakeVisible(&masterEnvelopeGuiComponent);
+
     setSize(550, 100);
 
 }
@@ -44,6 +46,17 @@ void MasterOutComponent::paint (juce::Graphics& g)
 
 void MasterOutComponent::resized()
 {
+    const int height = getHeight();
+    const int width = getWidth();
+    const int masterEnvelopeXPos = 325;
+    const int masterEnvelopeYPos = 0;
+    const int masterEnvelopeHeight = 100;
+    const int masterEnvelopeWidth = 275;
+
+
+
+    masterEnvelopeGuiComponent.setBounds(masterEnvelopeXPos, masterEnvelopeYPos, masterEnvelopeWidth, masterEnvelopeHeight);
+
     // This method is where you should set the bounds of any child
     // components that your component contains..
 

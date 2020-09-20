@@ -30,17 +30,14 @@ public:
 private:
     void initComboBoxes();
     void initLabels();
+
     juce::ComboBox oscSelectComboBox;
-    juce::ComboBox mOscTwoSelect;
     
-    juce::Label mOscOneLabel;
-    juce::Label mOscTwoLabel;
+    juce::Label oscLabel;   
     
+    const std::array<std::string, 4> oscList;
     
-    const std::array<std::string, 4> cOscList;
-    
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> mpOscOneSelectAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> mpOscTwoSelectAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscComboBoxAttachement;
     
     CuttingBoardSynthPluginAudioProcessor& audioProcessor;
     

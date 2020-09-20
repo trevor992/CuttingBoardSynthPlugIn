@@ -12,8 +12,10 @@
 #include "OscTwo.h"
 
 //==============================================================================
-OscTwo::OscTwo(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p)
+OscTwo::OscTwo(CuttingBoardSynthPluginAudioProcessor& p) : oscList({ "Sine Wave", "Saw Wave", "Square Wave", "User Wav"}), audioProcessor(p)
 {
+    initComboBoxes();
+    initLabels();
     setSize(625, 100);
 
 }
@@ -39,7 +41,35 @@ void OscTwo::paint (juce::Graphics& g)
 
 void OscTwo::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    const int oscCompHeight = getHeight();
+    const int oscCompWidth = getWidth();
+    const int comboBoxWidth = 150;
+    const int comboBoxHeight = 25;
+    const int padding = 25;
 
+    oscSelectComboBox.setBounds(0, padding, comboBoxWidth, comboBoxHeight);
+
+}
+
+void OscTwo::initComboBoxes()
+{
+    oscComboBoxAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getProcessorTree(), "waveTypeTwo", oscSelectComboBox);
+
+    for (int i = 0; i < oscList.size(); i++) {
+        oscSelectComboBox.addItem(oscList[i], i + 1);
+        oscSelectComboBox.setJustificationType(juce::Justification::centred);
+        addAndMakeVisible(&oscSelectComboBox);
+    }
+
+}
+
+void OscTwo::initLabels() 
+{
+    oscLabel.setText("Osc 2 Select", juce::dontSendNotification);
+
+    oscLabel.attachToComponent(&oscSelectComboBox, false);
+
+    oscLabel.setJustificationType(juce::Justification::centred);
+
+    addAndMakeVisible(oscLabel);
 }
