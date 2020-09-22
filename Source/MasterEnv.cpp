@@ -27,13 +27,10 @@ void MasterEnv::paint (juce::Graphics& g)
 {
     juce::Rectangle<int> border = getLocalBounds();
 
-    g.setColour(juce::Colours::yellow);
-    g.drawRect(border);
+    //g.setColour(juce::Colours::yellow);
+    //g.drawRect(border);
 
-    g.setColour(juce::Colours::white);
-    g.setFont(14.0f);
-    g.drawText("Master Amp Envelope", getLocalBounds(),
-        juce::Justification::centred, true);
+ 
 
    
 }
@@ -47,9 +44,12 @@ void MasterEnv::resized()
     const int padding = 25;
     int adsrXPos = 0;
     int adsrYPos = 0;
-
+    juce::Rectangle<int> rotarySliderDims = { 0,0, 40, 40 };
+    juce::Rectangle<int> textBoxDims = { 0,40, 50, 10 };
+    
     for (int i = 0; i < adsrKnobs.size(); i++)
     {
+        adsrKnobs[i].setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
         adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
         adsrKnobs[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, false, adsrKnobWidth, 10);
         adsrXPos += padding + adsrKnobWidth;
@@ -75,9 +75,8 @@ void MasterEnv::initSliders()
     {
         //allocating memory on heap
         adsrAttachments[i] = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(), audioProcessor.adsrAPVTIdentifiers[i], adsrKnobs[i]);
-
         adsrKnobs[i].setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-        adsrKnobs[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 130, 20);
+        adsrKnobs[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 130, 12);
         addAndMakeVisible(&adsrKnobs[i]);
         //sustain knob
         if (i == 2)

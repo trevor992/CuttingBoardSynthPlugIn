@@ -36,7 +36,9 @@ private:
     std::array<juce::Label, 4> adsrLabels;
 
     std::array<std::string, 4> const adsrText = { "attack", "decay", "sustain", "release" };
+
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>, 4> adsrAttachments;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterEnv)
 };

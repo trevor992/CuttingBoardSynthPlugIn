@@ -15,8 +15,7 @@
 MasterOutComponent::MasterOutComponent(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p), masterEnvelopeGuiComponent(p)
 {
     addAndMakeVisible(&masterEnvelopeGuiComponent);
-
-    setSize(550, 100);
+    setSize(550, 125);
 
 }
 
@@ -50,7 +49,7 @@ void MasterOutComponent::resized()
     const int width = getWidth();
     const int masterEnvelopeXPos = 325;
     const int masterEnvelopeYPos = 0;
-    const int masterEnvelopeHeight = 100;
+    const int masterEnvelopeHeight = 50;
     const int masterEnvelopeWidth = 275;
 
 

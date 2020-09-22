@@ -17,6 +17,7 @@
 //==============================================================================
 /*
 */
+
 class MasterOutComponent  : public juce::Component
 {
 public:
@@ -28,6 +29,7 @@ public:
 
 private:
     
+
     CuttingBoardSynthPluginAudioProcessor& audioProcessor;
 
     void initSliders();
