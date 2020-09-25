@@ -49,7 +49,6 @@ void MasterEnv::resized()
     
     for (int i = 0; i < adsrKnobs.size(); i++)
     {
-        adsrKnobs[i].setColour(juce::Slider::ColourIds::textBoxOutlineColourId, juce::Colours::transparentWhite);
         adsrKnobs[i].setBounds(adsrXPos, adsrYPos, adsrKnobWidth, adsrKnobHeight);
         adsrKnobs[i].setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, false, adsrKnobWidth, 10);
         adsrXPos += padding + adsrKnobWidth;

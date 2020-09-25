@@ -15,6 +15,7 @@
 MasterOutComponent::MasterOutComponent(CuttingBoardSynthPluginAudioProcessor& p) : audioProcessor(p), masterEnvelopeGuiComponent(p)
 {
     addAndMakeVisible(&masterEnvelopeGuiComponent);
+    initSliders();
     setSize(550, 125);
 
 }
@@ -36,11 +37,11 @@ void MasterOutComponent::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::yellow);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
+/*
     g.setColour (juce::Colours::white);
     g.setFont (14.0f);
     g.drawText ("MasterOutComponent", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+                juce::Justification::centred, true);*/   // draw some placeholder text
 }
 
 void MasterOutComponent::resized()
@@ -51,13 +52,12 @@ void MasterOutComponent::resized()
     const int masterEnvelopeYPos = 0;
     const int masterEnvelopeHeight = 50;
     const int masterEnvelopeWidth = 275;
-
+    const int masterGainWidth = 25;
 
 
     masterEnvelopeGuiComponent.setBounds(masterEnvelopeXPos, masterEnvelopeYPos, masterEnvelopeWidth, masterEnvelopeHeight);
+    masterGain.setBounds(width - masterGainWidth, 0, masterGainWidth, height);
 
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
 
 }
 
@@ -65,7 +65,7 @@ void MasterOutComponent::initSliders()
 {
     masterGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getProcessorTree(), "MasterGain", masterGain);
     masterGain.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    masterGain.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 20);
+    masterGain.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 25, 10);
 
     addAndMakeVisible(&masterGain);
     masterGain.setNumDecimalPlacesToDisplay(2);
